@@ -45,7 +45,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun Bye(){
     Text(
-        text = "Bye Bro OR Hi Sis HMM"
+        text = "Heheheha"
     )
 }
 
