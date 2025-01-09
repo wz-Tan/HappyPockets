@@ -45,7 +45,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun Bye(){
     Text(
-        text = "Bye Bro"
+        text = "Bye Bro OR Hi Sis"
     )
 }
 
@@ -54,5 +54,6 @@ fun Bye(){
 fun GreetingPreview() {
     HappyPocketsTheme {
         Greeting("Android")
+        Bye()
     }
 }
