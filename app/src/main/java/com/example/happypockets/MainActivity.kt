@@ -55,5 +55,6 @@ fun GreetingPreview() {
     HappyPocketsTheme {
         Greeting("Android")
         Bye()
+        Bye()
     }
 }
