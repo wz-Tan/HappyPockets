@@ -20,13 +20,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             HappyPocketsTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) {_, ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(all = Dp(80.5F)),
-
-                    )
-                }
+                CreateIncomePage()
 
             }
         }
