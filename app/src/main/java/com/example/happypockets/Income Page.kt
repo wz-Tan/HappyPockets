@@ -1,30 +1,36 @@
 package com.example.happypockets
 
-import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.RoundedCorner
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.absolutePadding
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Shapes
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -33,16 +39,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.colorspace.Rgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.VerticalAlignmentLine
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.happypockets.ui.theme.HappyPocketsTheme
@@ -50,9 +61,9 @@ import com.example.happypockets.ui.theme.IncomeBackgroundGreen
 import com.example.happypockets.ui.theme.IncomeBannerGreen
 import com.example.happypockets.ui.theme.Itim
 import com.example.happypockets.ui.theme.White
+import com.example.happypockets.ui.theme.cardColour
 
 @OptIn(ExperimentalMaterial3Api::class)
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 internal fun CreateIncomePage(){
     //Scaffold is used to clear up the Ui layout, allowing for top and bottom bar as well as an action button
@@ -78,6 +89,7 @@ internal fun CreateIncomePage(){
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.Center){
                             Text(text="Income",
+                                color = Color.White,
                                 fontFamily = Itim,
                                 fontSize=35.sp,
                                 fontWeight = FontWeight.Bold
@@ -172,7 +184,35 @@ internal fun CreateIncomePage(){
 
         containerColor = IncomeBackgroundGreen)
         //Content Starts here
-        {
-            Text(text="Hello World!")
+        { autoPadding->
+            Column (modifier=Modifier.padding(autoPadding)){
+                //Use box to align the texts
+                Box(
+                    modifier=Modifier.padding(vertical = 10.dp, horizontal=10.dp)
+                ){
+                    Text(text="Overview",
+                        textAlign = TextAlign.Left,
+                        style = MaterialTheme.typography.bodyLarge,
+                    )
+                }
+
+                var roundedRectangle=RoundedCornerShape(20.dp)
+                //Graph Area (How to add shadow without creating a box?)
+
+
+                Surface(
+                    modifier = Modifier.padding(horizontal=10.dp)
+                        .height(220.dp)
+                        .fillMaxWidth(),
+                    color = cardColour.copy(alpha = 0.5F),
+                    shape = roundedRectangle,
+                    shadowElevation = 10.dp
+                ){
+                    Text(text=" This is a semi transparent surface",
+                        )
+                }
+
+            }
+
         }
     }
