@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.absolutePadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -41,6 +42,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -104,7 +106,7 @@ fun CreateIncomePage(){
                                 fontWeight = FontWeight.Bold
                             )
 
-                            Spacer(modifier=Modifier.width(Dp(10.0F)))
+                            Spacer(modifier=Modifier.width(10.dp))
 
                             Image(
                                 painter= painterResource(R.drawable.chill_guy),
@@ -116,20 +118,17 @@ fun CreateIncomePage(){
                     }
                 )
 
-                HorizontalDivider(color=Color.Gray, thickness = Dp(2.5F))
 
         },
 
         //Each section essentially is also a parameter
         bottomBar = {
-            HorizontalDivider(thickness = Dp(3.0F), color=Color.Gray)
             BottomAppBar(
                 containerColor = IncomeBannerGreen,
-                contentColor=White
             ) {
                 Surface (modifier = Modifier.fillMaxSize(),
                     color = Color.Transparent){
-                    Row (modifier = Modifier.padding(horizontal = Dp(10.0F), vertical = Dp(5.0F)),
+                    Row (modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically){
 
@@ -212,8 +211,9 @@ fun CreateIncomePage(){
                         .padding(vertical=10.dp)
                         .height(220.dp)
                         .fillMaxWidth(),
-                    color = cardColour.copy(alpha = 0.5F),
-                    shape = roundedRectangle
+                    color = cardColour,
+                    shape = roundedRectangle,
+                    shadowElevation = 5.dp
                 ){
                     Text(text=" Graph Area",
                         textAlign = TextAlign.Center)

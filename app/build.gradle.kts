@@ -1,9 +1,15 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     kotlin("plugin.serialization") version "2.1.0"
 }
+
+val supabaseUrl:String= gradleLocalProperties(rootDir,providers).getProperty("supabaseUrl").toString()
+val supabaseKey:String= gradleLocalProperties(rootDir,providers).getProperty("supabaseKey").toString()
 
 android {
     namespace = "com.example.happypockets"
@@ -15,7 +21,6 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -26,7 +31,18 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField(type="String",name="SupabaseURL",value="\"$supabaseUrl\"")
+            buildConfigField(type="String",name="SupabaseKey",value="\"$supabaseKey\"")
         }
+
+        debug {
+            buildConfigField(type="String",name="SupabaseURL",value="\"$supabaseUrl\"")
+            buildConfigField(type="String",name="SupabaseKey",value="\"$supabaseKey\"")
+        }
+    }
+
+    buildFeatures{
+        buildConfig=true
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
