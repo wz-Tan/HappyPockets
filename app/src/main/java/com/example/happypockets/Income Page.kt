@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -67,7 +68,7 @@ import com.example.happypockets.ui.theme.cardColour
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun CreateIncomePage(){
+fun CreateIncomePage(){
     //Scaffold is used to clear up the Ui layout, allowing for top and bottom bar as well as an action button
     //The contents are inside of the curly brackets instead
     Scaffold(
@@ -215,6 +216,9 @@ internal fun CreateIncomePage(){
                     Text(text="Transactions",
                         style=MaterialTheme.typography.bodyLarge)
                 }
+
+                //Card Section
+                createCard()
             }
 
         }
