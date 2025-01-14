@@ -41,9 +41,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.DefaultShadowColor
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.colorspace.Rgb
+import androidx.compose.ui.graphics.vector.DefaultScaleX
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.VerticalAlignmentLine
 import androidx.compose.ui.res.painterResource
@@ -165,14 +167,6 @@ internal fun CreateIncomePage(){
                         )
                     }
 
-
-                    /*Text(text="Nav Part",
-                        color = White,
-                        fontFamily = Itim,
-                        fontSize = 40.sp,
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center
-                    )*/
                 }
 
             }
@@ -185,10 +179,12 @@ internal fun CreateIncomePage(){
         containerColor = IncomeBackgroundGreen)
         //Content Starts here
         { autoPadding->
-            Column (modifier=Modifier.padding(autoPadding)){
+            Column (modifier=Modifier
+                .padding(horizontal = autoPadding.calculateLeftPadding(LayoutDirection.Ltr)+10.dp,
+                    vertical = autoPadding.calculateTopPadding())){
                 //Use box to align the texts
                 Box(
-                    modifier=Modifier.padding(vertical = 10.dp, horizontal=10.dp)
+                    modifier=Modifier.padding(vertical = 5.dp)
                 ){
                     Text(text="Overview",
                         textAlign = TextAlign.Left,
@@ -197,21 +193,28 @@ internal fun CreateIncomePage(){
                 }
 
                 var roundedRectangle=RoundedCornerShape(20.dp)
+
                 //Graph Area (How to add shadow without creating a box?)
-
-
                 Surface(
-                    modifier = Modifier.padding(horizontal=10.dp)
+                    modifier = Modifier
+                        .padding(vertical=10.dp)
                         .height(220.dp)
                         .fillMaxWidth(),
                     color = cardColour.copy(alpha = 0.5F),
-                    shape = roundedRectangle,
-                    shadowElevation = 10.dp
+                    shape = roundedRectangle
                 ){
-                    Text(text=" This is a semi transparent surface",
-                        )
+                    Text(text=" Graph Area",
+                        textAlign = TextAlign.Center)
                 }
-
+                
+                //Transactions Text
+                Box(
+                    modifier=Modifier
+                        .padding(vertical=5.dp)
+                ){
+                    Text(text="Transactions",
+                        style=MaterialTheme.typography.bodyLarge)
+                }
             }
 
         }
