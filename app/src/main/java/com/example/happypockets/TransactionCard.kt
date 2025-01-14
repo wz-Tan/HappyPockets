@@ -1,6 +1,7 @@
 package com.example.happypockets
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.material3.Surface
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,8 +14,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.happypockets.ui.theme.Itim
@@ -26,25 +29,35 @@ fun createCard(){
     Surface(
         modifier=Modifier
             .fillMaxWidth()
-            .padding(vertical=5.dp)
+            .padding(vertical=3.dp)
             .height(80.dp),
         color= cardColour,
         shape= RoundedCornerShape(20.dp),
-        shadowElevation = 10.dp
+        shadowElevation = 5.dp
     ) {
-        Row{
+        Row (verticalAlignment = Alignment.CenterVertically){
             Image(
                 painter = painterResource(R.drawable.ic_launcher_foreground),
-                contentDescription = "Image For Face"
+                contentDescription = "Image For Face",
+                modifier=Modifier.width(80.dp)
             )
 
-            Column(Modifier.padding(vertical = 5.dp)){
-                Text(text="Word Goes Here")
+            Column (modifier = Modifier.width(190.dp)){
+                Text(text="School",
+                    fontSize = 25.sp)
 
-                Text(text="Description Goes Here",
+                Text(text="15/05/25, 7.00PM",
                     fontFamily = Itim,
+                    fontSize = 15.sp)
+            }
+
+
+            Box{
+                Text(text="RM200.00",
                     fontSize = 20.sp)
             }
+
+
 
         }
     }
@@ -52,6 +65,7 @@ fun createCard(){
 
 @Serializable
 data class transactionData(
-    var title:String,
+    var title:String, //This can be 16 characters max
+    var description:String, //This is for the time
     var amount:Float,
 )
