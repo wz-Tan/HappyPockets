@@ -1,6 +1,8 @@
 package com.example.happypockets
 
+import android.icu.text.SimpleDateFormat
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -13,11 +15,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import com.example.happypockets.ui.theme.HappyPocketsTheme
+import kotlinx.datetime.LocalDateTime
+import java.util.Calendar
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        val time= Calendar.getInstance().time
+        val formatter=SimpleDateFormat("dd/MM/YY, HH:mm aaa")
+        Log.i("time", formatter.format(time))
         setContent {
             HappyPocketsTheme {
                 CreateIncomePage()

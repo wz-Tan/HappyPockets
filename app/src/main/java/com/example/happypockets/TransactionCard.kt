@@ -22,7 +22,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.happypockets.ui.theme.Itim
 import com.example.happypockets.ui.theme.cardColour
+import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.Serializable
+import java.sql.Time
+import java.time.Instant
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun createCard(){
@@ -53,7 +57,7 @@ fun createCard(){
 
 
             Box{
-                Text(text="RM200.00",
+                Text(text= "time",
                     fontSize = 20.sp)
             }
 
@@ -65,7 +69,8 @@ fun createCard(){
 
 @Serializable
 data class transactionData(
-    var title:String, //This can be 16 characters max
-    var description:String, //This is for the time
-    var amount:Float,
+    val title:String, //This can be 16 characters max
+    val time:String, //This is for the time
+    val category:String,
+    val amount:Float,
 )
