@@ -74,3 +74,5 @@ data class transactionData(
     val category:String,
     val amount:Float,
 )
+
+val supabase= Supabase

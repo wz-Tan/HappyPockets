@@ -22,9 +22,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        val time= Calendar.getInstance().time
-        val formatter=SimpleDateFormat("dd/MM/YY, HH:mm aaa")
-        Log.i("time", formatter.format(time))
         setContent {
             HappyPocketsTheme {
                 CreateIncomePage()
