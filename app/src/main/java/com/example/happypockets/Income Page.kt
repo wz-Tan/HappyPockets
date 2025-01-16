@@ -64,6 +64,19 @@ fun CreateIncomePage(){
     //Scaffold is used to clear up the Ui layout, allowing for top and bottom bar as well as an action button
     //The contents are inside of the curly brackets instead
     Scaffold(
+        floatingActionButton = {
+            //Make it a lambda function when clicked
+            FloatingActionButton(
+                onClick = {
+                    if (createTransaction==false) {
+                        createTransaction=true
+                    }
+                }) {
+                //Default Icons In this Dir
+                Icon(Icons.Default.AddCircle,"Add Icon")
+            }
+        },
+
         //Tag for topBar
         topBar = { //This is just a tag, topAppBar is a prebuilt format for the header
                 TopAppBar(
@@ -162,22 +175,10 @@ fun CreateIncomePage(){
             }
         },
 
-        floatingActionButton = {
-            //Make it a lambda function when clicked
-            FloatingActionButton(
-                onClick = {
-                    if (createTransaction==false) {
-                        createTransaction=true
-                    }
-                }) {
-                //Default Icons In this Dir
-                Icon(Icons.Default.AddCircle,"Add Icon")
-            }
-        },
-
         containerColor = IncomeBackgroundGreen)
         //Content Starts here
         { autoPadding->
+            //Add the transaction screen once it is clicked
 
             Column (modifier=Modifier
                 .padding(horizontal = autoPadding.calculateLeftPadding(LayoutDirection.Ltr)+10.dp,
@@ -228,14 +229,13 @@ fun CreateIncomePage(){
                 createCard()
             }
 
-            //Add the transaction screen once it is clicked
+            //Creates an object that fills the entire page
             if (createTransaction){
-                Box{
-                    CreateTransaction()
-                }
+                CreateTransaction()
             }
 
         }
+
     }
 
 fun getTime(){
