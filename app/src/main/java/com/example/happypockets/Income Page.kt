@@ -61,7 +61,6 @@ import java.util.Calendar
 fun CreateIncomePage(){
     var createTransaction by remember { mutableStateOf(false) }
     val roundedRectangle=RoundedCornerShape(20.dp)
-    var innerPadding:PaddingValues
     var showActionButton by remember { mutableStateOf(true) }
     //Scaffold is used to clear up the Ui layout, allowing for top and bottom bar as well as an action button
     //The contents are inside of the curly brackets instead
@@ -181,10 +180,7 @@ fun CreateIncomePage(){
         containerColor = IncomeBackgroundGreen)
         //Content Starts here
         { autoPadding->
-
-        innerPadding=autoPadding
             //Add the transaction screen once it is clicked
-
             Column (modifier=Modifier
                 .padding(horizontal = autoPadding.calculateLeftPadding(LayoutDirection.Ltr)+10.dp,
                     vertical = autoPadding.calculateTopPadding())
@@ -235,7 +231,7 @@ fun CreateIncomePage(){
             }
             //Creates an object that fills the entire page
             if (createTransaction){
-                CreateTransaction(innerPadding)
+                CreateTransaction(autoPadding, showActionButton)
             }
 
         }
