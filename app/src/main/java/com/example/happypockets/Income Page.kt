@@ -7,6 +7,7 @@ import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -52,7 +53,6 @@ import com.example.happypockets.ui.theme.IncomeBannerGreen
 import com.example.happypockets.ui.theme.Itim
 import com.example.happypockets.ui.theme.White
 import com.example.happypockets.ui.theme.cardColour
-import kotlinx.datetime.LocalDateTime
 import java.util.Calendar
 
 
@@ -61,22 +61,11 @@ import java.util.Calendar
 fun CreateIncomePage(){
     var createTransaction by remember { mutableStateOf(false) }
     val roundedRectangle=RoundedCornerShape(20.dp)
+    var innerPadding:PaddingValues
+    var showActionButton by remember { mutableStateOf(true) }
     //Scaffold is used to clear up the Ui layout, allowing for top and bottom bar as well as an action button
     //The contents are inside of the curly brackets instead
     Scaffold(
-        floatingActionButton = {
-            //Make it a lambda function when clicked
-            FloatingActionButton(
-                onClick = {
-                    if (createTransaction==false) {
-                        createTransaction=true
-                    }
-                }) {
-                //Default Icons In this Dir
-                Icon(Icons.Default.AddCircle,"Add Icon")
-            }
-        },
-
         //Tag for topBar
         topBar = { //This is just a tag, topAppBar is a prebuilt format for the header
                 TopAppBar(
@@ -96,7 +85,7 @@ fun CreateIncomePage(){
                         Row(modifier = Modifier.fillMaxSize(),
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.Center){
-                            Text(text="Income",
+                            Text(text="Overview",
                                 color = Color.White,
                                 fontFamily = Itim,
                                 fontSize=35.sp,
@@ -174,10 +163,26 @@ fun CreateIncomePage(){
 
             }
         },
-
+        floatingActionButton = {
+            //Make it a lambda function when clicked, use a mutable state to toggle
+            if (showActionButton){
+                FloatingActionButton(
+                    onClick = {
+                        if (createTransaction==false) {
+                            createTransaction=true
+                        }
+                        showActionButton=false
+                    }) {
+                    //Default Icons In this Dir
+                    Icon(Icons.Default.AddCircle,"Add Icon")
+                }
+            }
+        },
         containerColor = IncomeBackgroundGreen)
         //Content Starts here
         { autoPadding->
+
+        innerPadding=autoPadding
             //Add the transaction screen once it is clicked
 
             Column (modifier=Modifier
@@ -228,13 +233,13 @@ fun CreateIncomePage(){
                 createCard()
                 createCard()
             }
-
             //Creates an object that fills the entire page
             if (createTransaction){
-                CreateTransaction()
+                CreateTransaction(innerPadding)
             }
 
         }
+
 
     }
 
