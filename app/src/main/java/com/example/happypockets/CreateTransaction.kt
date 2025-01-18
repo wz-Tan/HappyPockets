@@ -13,6 +13,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -22,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -30,9 +34,10 @@ import com.example.happypockets.ui.theme.Itim
 import com.example.happypockets.ui.theme.offWhite
 
 @Composable
-fun CreateTransaction(autoPadding: PaddingValues,  showActionButton: Boolean) {
+fun CreateTransaction(autoPadding: PaddingValues) {
+    //Maybe take over the head of the overview
     Surface(
-        modifier= Modifier.padding(autoPadding)
+        modifier= Modifier.padding(bottom = autoPadding.calculateBottomPadding())
             .fillMaxSize(),
         color = offWhite,
         shape = RoundedCornerShape(10.dp)
@@ -45,25 +50,35 @@ fun CreateTransaction(autoPadding: PaddingValues,  showActionButton: Boolean) {
             Row(modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
+                verticalAlignment = Alignment.CenterVertically
                 ){
-                Text(text="<--",
-                    modifier=Modifier.clickable {
-                        Log.i("CreateTransaction","I am Clicked")
-                    })
+
+                Icon(
+                    Icons.Default.ArrowBack,
+                    "Back Icon",
+                    modifier=Modifier.clickable { Log.i("CreateTransaction","Back Button is Clicked") }
+                        .width(30.dp)
+                        .height(30.dp)
+                )
+
+                Spacer(modifier=Modifier.width(40.dp))
 
                 Text(text="Create Transaction",
-                    textAlign= TextAlign.Center,
                     fontFamily = Itim,
                     fontSize = 30.sp,)
             }
 
             //Create Data Box here, the contents will be fed into the item
-            
+            CreateDataBox(
+                {
+                    Row(modifier=Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically){
 
-
+                        Text(text="Type")
+                    }
+                }
+            )
         }
-
-
     }
 }
 
@@ -78,7 +93,7 @@ fun CreateDataBox(content: @Composable () ->Unit){
             //draw a line for the top of the box
             drawLine(
                 color=Color.Black,
-                start = Offset(x=0F,y=0F),
+                start = Offset(x=0f,y=0f),
                 end = Offset(x=size.width,y=0F),
                 strokeWidth = borderWidth
             )
