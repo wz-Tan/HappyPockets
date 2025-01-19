@@ -1,12 +1,11 @@
 package com.example.happypockets
 
-import android.icu.text.SimpleDateFormat
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -17,6 +16,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -36,10 +36,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -47,8 +47,10 @@ import com.example.happypockets.ui.theme.HappyPocketsTheme
 import com.example.happypockets.ui.theme.IncomeBannerGreen
 import com.example.happypockets.ui.theme.Itim
 import com.example.happypockets.ui.theme.White
-import kotlinx.datetime.LocalDateTime
-import java.util.Calendar
+import com.example.happypockets.ui.theme.collabPurple
+import com.example.happypockets.ui.theme.goalsBlue
+import com.example.happypockets.ui.theme.insightsOrange
+import com.example.happypockets.ui.theme.transactionBeige
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,17 +67,35 @@ class MainActivity : ComponentActivity() {
 interface AppBarColors{
     companion object{
         val overviewColor= IncomeBannerGreen
-        val transactionColor= Color.Gray
+        val transactionColor= transactionBeige
+        val insightsColor= insightsOrange
+        val chatColor= Color.Cyan
+        val goalsColor= goalsBlue
+        val collabColor= collabPurple
     }
 }
 
 interface Titles{
     companion object{
-        val overview="Overview"
-        val createTransaction="Create Transacton"
+        const val overview="Overview"
+        const val createTransaction="Create Transaction"
+        const val insights="Insights"
+        const val chat="Chat"
+        const val goals="Financial Goals"
+        const val collab="Collaboration"
     }
 }
 
+interface PageNames{
+    companion object{
+        const val TransactionPage="TransactionPage"
+        const val OverviewPage="OverviewPage"
+        const val InsightsPage="InsightsPage"
+        const val ChatPage="ChatPage"
+        const val GoalsPage="GoalsPage"
+        const val CollabPage="CollabPage"
+    }
+}
 val roundedRectangle= RoundedCornerShape(20.dp)
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -85,6 +105,9 @@ fun pageLayout(){
     var title by remember{ mutableStateOf(Titles.overview) }
     var createTransaction by remember { mutableStateOf(false) }
     var showActionButton by remember { mutableStateOf(true) }
+    var showBackButton by remember { mutableStateOf(false) }
+    var currPage by remember {mutableStateOf("OverviewPage")}
+    var prevPage by remember {mutableStateOf("")}
 
     Scaffold(
         topBar = {
@@ -103,6 +126,7 @@ fun pageLayout(){
                     Row(modifier = Modifier.fillMaxSize(),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center){
+
                         Text(text=title,
                             color = Color.White,
                             fontFamily = Itim,
@@ -110,6 +134,17 @@ fun pageLayout(){
                             fontWeight = FontWeight.Bold
                         )
                     }
+
+                    //How do I layer this on the box
+                    if (showBackButton){
+                    Box{
+                        Icon(Icons.Default.ArrowBack, "Back Button",
+                            modifier = Modifier.clickable {
+                                currPage=prevPage
+                            })
+                    }
+
+                }
                 }
             )
 
@@ -119,7 +154,7 @@ fun pageLayout(){
         //Each section essentially is also a parameter
         bottomBar = {
             BottomAppBar(
-                containerColor = IncomeBannerGreen,
+                containerColor = currColor,
             ) {
                 Surface (modifier = Modifier.fillMaxSize(),
                     color = Color.Transparent){
@@ -127,44 +162,96 @@ fun pageLayout(){
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically){
 
-                        Image( //Assume this is a button for an icon
-                            painter = painterResource(R.drawable.ic_launcher_background),
-                            contentDescription = "Icon of a footer item",
+                        Image(
+                            painter = painterResource(R.drawable.icon_money),
+                            contentDescription = "Overview Page Icon",
                             contentScale = ContentScale.FillBounds,
-                            modifier = Modifier.size(Dp(60.0F))
+                            modifier = Modifier.size(Dp(50.0F))
                                 .clip(CircleShape)
+                                .clickable {
+                                    currPage=PageNames.OverviewPage
+                                },
+                            colorFilter =
+                            //Use or because we might go into another section
+                            if (IconTintCondition(currPage,prevPage,PageNames.OverviewPage)){
+                                ColorFilter.tint(Color.White)
+                            }
+                            else{
+                                ColorFilter.tint(Color.Black)
+                            }
                         )
 
-                        Image( //Assume this is a button for an icon
-                            painter = painterResource(R.drawable.ic_launcher_background),
+                        Image(
+                            painter = painterResource(R.drawable.icon_lightbulb),
                             contentDescription = "Icon of a footer item",
                             contentScale = ContentScale.FillBounds,
-                            modifier = Modifier.size(Dp(60.0F))
+                            modifier = Modifier.size(Dp(50.0F))
                                 .clip(CircleShape)
+                                .clickable {
+                                    currPage=PageNames.InsightsPage
+                                },
+                            colorFilter =
+                            if (IconTintCondition(currPage,prevPage,PageNames.OverviewPage)){
+                                ColorFilter.tint(Color.White)
+                            }
+                            else{
+                                ColorFilter.tint(Color.Black)
+                            }
                         )
 
-                        Image( //Assume this is a button for an icon
-                            painter = painterResource(R.drawable.ic_launcher_background),
-                            contentDescription = "Icon of a footer item",
+                        Image(
+                            painter = painterResource(R.drawable.icon_chat),
+                            contentDescription = "Chat Page Icon",
                             contentScale = ContentScale.FillBounds,
-                            modifier = Modifier.size(Dp(60.0F))
+                            modifier = Modifier.size(Dp(50.0F))
                                 .clip(CircleShape)
+                                .clickable {
+                                    currPage=PageNames.ChatPage
+                                },
+                            colorFilter =
+                            if (IconTintCondition(currPage,prevPage,PageNames.ChatPage)){
+                                ColorFilter.tint(Color.White)
+                            }
+                            else{
+                                ColorFilter.tint(Color.Black)
+                            }
+
                         )
 
-                        Image( //Assume this is a button for an icon
-                            painter = painterResource(R.drawable.ic_launcher_background),
-                            contentDescription = "Icon of a footer item",
+                        Image(
+                            painter = painterResource(R.drawable.icon_target),
+                            contentDescription = "Goals Page Icon",
                             contentScale = ContentScale.FillBounds,
-                            modifier = Modifier.size(Dp(60.0F))
+                            modifier = Modifier.size(Dp(50.0F))
                                 .clip(CircleShape)
+                                .clickable {
+                                    currPage=PageNames.GoalsPage
+                                },
+                            colorFilter =
+                            if (IconTintCondition(currPage,prevPage,PageNames.GoalsPage)){
+                                ColorFilter.tint(Color.White)
+                            }
+                            else{
+                                ColorFilter.tint(Color.Black)
+                            }
                         )
 
-                        Image( //Assume this is a button for an icon
-                            painter = painterResource(R.drawable.ic_launcher_background),
-                            contentDescription = "Icon of a footer item",
+                        Image(
+                            painter = painterResource(R.drawable.icon_community),
+                            contentDescription = "Collab Page Icon",
                             contentScale = ContentScale.FillBounds,
-                            modifier = Modifier.size(Dp(60.0F))
+                            modifier = Modifier.size(Dp(50.0F))
                                 .clip(CircleShape)
+                                .clickable {
+                                    currPage=PageNames.CollabPage
+                                },
+                            colorFilter =
+                            if (IconTintCondition(currPage,prevPage,PageNames.CollabPage)){
+                                ColorFilter.tint(Color.White)
+                            }
+                            else{
+                                ColorFilter.tint(Color.Black)
+                            }
                         )
                     }
 
@@ -173,29 +260,81 @@ fun pageLayout(){
             }
         },
         floatingActionButton = {
-            //Make it a lambda function when clicked, use a mutable state to toggle
+
             if (showActionButton){
                 FloatingActionButton(
                     onClick = {
-                        if (createTransaction==false) {
-                            createTransaction=true
-                            currColor= AppBarColors.transactionColor
-                            title=Titles.createTransaction
+                        if (!createTransaction) {
+                            prevPage=currPage
+                            currPage=PageNames.TransactionPage
                         }
-                        showActionButton=false
                     }) {
-                    //Default Icons In this Dir
+
                     Icon(Icons.Default.AddCircle,"Add Icon")
                 }
             }
         }
     ){
         autoPadding->
-        if (createTransaction){
-            CreateTransaction(autoPadding)
+        when (currPage){
+            PageNames.OverviewPage -> {
+                CreateIncomePage(autoPadding)
+                showActionButton=true
+                showBackButton=false
+                currColor=AppBarColors.overviewColor
+                title=Titles.overview
+            }
+
+            PageNames.TransactionPage -> {
+                CreateTransactionPage(autoPadding)
+                showActionButton=false
+                showBackButton=true
+                currColor=AppBarColors.transactionColor
+                title=Titles.createTransaction
+            }
+
+            PageNames.InsightsPage -> {
+                CreateInsightsPage(autoPadding)
+                showActionButton=false
+                showBackButton=false
+                currColor=AppBarColors.insightsColor
+                title=Titles.insights
+            }
+
+            PageNames.ChatPage -> {
+                CreateChatPage(autoPadding)
+                showActionButton=false
+                showBackButton=false
+                currColor=AppBarColors.chatColor
+                title=Titles.chat
+            }
+
+            PageNames.GoalsPage -> {
+                CreateGoalsPage(autoPadding)
+                showActionButton=false
+                showBackButton=false
+                currColor=AppBarColors.goalsColor
+                title=Titles.goals
+            }
+
+            PageNames.CollabPage -> {
+                CreateCollabPage(autoPadding)
+                showActionButton=false
+                showBackButton=false
+                currColor=AppBarColors.collabColor
+                title=Titles.collab
+            }
+
+
         }
-        else{
-            CreateIncomePage(autoPadding)
-        }
-        }
+    }
+}
+
+fun IconTintCondition(currPage:String, prevPage:String, desiredPage:String): Boolean {
+    if (currPage == desiredPage || prevPage == desiredPage){
+        return true
+    }
+    else{
+        return false
+    }
 }

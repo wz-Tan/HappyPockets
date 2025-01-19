@@ -28,17 +28,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.happypockets.ui.theme.Itim
 import com.example.happypockets.ui.theme.offWhite
 
 @Composable
-fun CreateTransaction(autoPadding: PaddingValues) {
+fun CreateTransactionPage(autoPadding: PaddingValues) {
     //Maybe take over the head of the overview
     Surface(
-        modifier= Modifier.padding(bottom = autoPadding.calculateBottomPadding())
-            .fillMaxSize(),
+        modifier= Modifier
+            .padding(horizontal = autoPadding.calculateLeftPadding(LayoutDirection.Ltr)+10.dp,
+            vertical = autoPadding.calculateTopPadding()),
         color = offWhite,
         shape = RoundedCornerShape(10.dp)
     ){
@@ -53,26 +55,20 @@ fun CreateTransaction(autoPadding: PaddingValues) {
                 verticalAlignment = Alignment.CenterVertically
                 ){
 
-                Icon(
+                Text(text="Transaction Details")
+                /*Icon(
                     Icons.Default.ArrowBack,
                     "Back Icon",
                     modifier=Modifier.clickable { Log.i("CreateTransaction","Back Button is Clicked") }
                         .width(30.dp)
                         .height(30.dp)
-                )
-
-                Spacer(modifier=Modifier.width(40.dp))
-
-                Text(text="Create Transaction",
-                    fontFamily = Itim,
-                    fontSize = 30.sp,)
+                )*/
             }
 
             //Create Data Box here, the contents will be fed into the item
             CreateDataBox(
                 {
-                    Row(modifier=Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically){
+                    Row(verticalAlignment = Alignment.CenterVertically){
 
                         Text(text="Type")
                     }
@@ -87,26 +83,9 @@ fun CreateTransaction(autoPadding: PaddingValues) {
 fun CreateDataBox(content: @Composable () ->Unit){
     Surface(modifier=Modifier.fillMaxWidth()
         .height(80.dp)
-        .drawBehind {
-            val borderWidth=3.dp.toPx()
-
-            //draw a line for the top of the box
-            drawLine(
-                color=Color.Black,
-                start = Offset(x=0f,y=0f),
-                end = Offset(x=size.width,y=0F),
-                strokeWidth = borderWidth
-            )
-
-            drawLine(
-                color=Color.Black,
-                start = Offset(x=0f,y=size.height),
-                end=Offset(x=size.width,y=size.height),
-                strokeWidth = borderWidth
-            )
-
-        },
-        color= offWhite
+        .padding(horizontal = 10.dp),
+        color= Color.Yellow.copy(0.7F),
+        shape = roundedRectangle
     ){
         content()
 
