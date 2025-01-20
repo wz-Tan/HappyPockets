@@ -48,3 +48,12 @@ val Typography = Typography(
     )
     */
 )
+
+val TransactionAmountStyle=TextStyle(
+    color = Color.Black,
+    fontFamily = Itim,
+    fontWeight = FontWeight.Bold,
+    fontSize = 50.sp,
+    lineHeight = 24.sp,
+    letterSpacing = 0.5.sp
+)

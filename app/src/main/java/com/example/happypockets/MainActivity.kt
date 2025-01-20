@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -40,6 +41,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -122,11 +124,8 @@ fun pageLayout(){
                 ),
 
                 title = {
-
-                    Row(modifier = Modifier.fillMaxSize(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center){
-
+                    Box(modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center){
                         Text(text=title,
                             color = Color.White,
                             fontFamily = Itim,
@@ -135,13 +134,14 @@ fun pageLayout(){
                         )
                     }
 
-                    //How do I layer this on the box
                     if (showBackButton){
-                    Box{
+                    Box(contentAlignment = Alignment.CenterStart,
+                        modifier=Modifier.fillMaxSize()){
                         Icon(Icons.Default.ArrowBack, "Back Button",
                             modifier = Modifier.clickable {
                                 currPage=prevPage
-                            })
+                            }
+                                .width(40.dp))
                     }
 
                 }
@@ -153,125 +153,127 @@ fun pageLayout(){
 
         //Each section essentially is also a parameter
         bottomBar = {
-            BottomAppBar(
-                containerColor = currColor,
-            ) {
-                Surface (modifier = Modifier.fillMaxSize(),
-                    color = Color.Transparent){
-                    Row (modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically){
+            if (currPage!=PageNames.TransactionPage){
+                BottomAppBar(
+                    containerColor = currColor,
+                ) {
+                    Surface (modifier = Modifier.fillMaxSize(),
+                        color = Color.Transparent){
+                        Row (modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically){
 
-                        Image(
-                            painter = painterResource(R.drawable.icon_money),
-                            contentDescription = "Overview Page Icon",
-                            contentScale = ContentScale.FillBounds,
-                            modifier = Modifier.size(Dp(50.0F))
-                                .clip(CircleShape)
-                                .clickable {
-                                    currPage=PageNames.OverviewPage
-                                },
-                            colorFilter =
-                            //Use or because we might go into another section
-                            if (IconTintCondition(currPage,prevPage,PageNames.OverviewPage)){
-                                ColorFilter.tint(Color.White)
-                            }
-                            else{
-                                ColorFilter.tint(Color.Black)
-                            }
-                        )
+                            Image(
+                                painter = painterResource(R.drawable.icon_money),
+                                contentDescription = "Overview Page Icon",
+                                contentScale = ContentScale.FillBounds,
+                                modifier = Modifier.size(Dp(50.0F))
+                                    .clip(CircleShape)
+                                    .clickable {
+                                        currPage=PageNames.OverviewPage
+                                    },
+                                colorFilter =
+                                //Use or because we might go into another section
+                                if (IconTintCondition(currPage,PageNames.OverviewPage)){
+                                    ColorFilter.tint(Color.White)
+                                }
+                                else{
+                                    ColorFilter.tint(Color.Black)
+                                }
+                            )
 
-                        Image(
-                            painter = painterResource(R.drawable.icon_lightbulb),
-                            contentDescription = "Icon of a footer item",
-                            contentScale = ContentScale.FillBounds,
-                            modifier = Modifier.size(Dp(50.0F))
-                                .clip(CircleShape)
-                                .clickable {
-                                    currPage=PageNames.InsightsPage
-                                },
-                            colorFilter =
-                            if (IconTintCondition(currPage,prevPage,PageNames.OverviewPage)){
-                                ColorFilter.tint(Color.White)
-                            }
-                            else{
-                                ColorFilter.tint(Color.Black)
-                            }
-                        )
+                            Image(
+                                painter = painterResource(R.drawable.icon_lightbulb),
+                                contentDescription = "Icon of a footer item",
+                                contentScale = ContentScale.FillBounds,
+                                modifier = Modifier.size(Dp(50.0F))
+                                    .clip(CircleShape)
+                                    .clickable {
+                                        currPage=PageNames.InsightsPage
+                                    },
+                                colorFilter =
+                                if (IconTintCondition(currPage,PageNames.InsightsPage)){
+                                    ColorFilter.tint(Color.White)
+                                }
+                                else{
+                                    ColorFilter.tint(Color.Black)
+                                }
+                            )
 
-                        Image(
-                            painter = painterResource(R.drawable.icon_chat),
-                            contentDescription = "Chat Page Icon",
-                            contentScale = ContentScale.FillBounds,
-                            modifier = Modifier.size(Dp(50.0F))
-                                .clip(CircleShape)
-                                .clickable {
-                                    currPage=PageNames.ChatPage
-                                },
-                            colorFilter =
-                            if (IconTintCondition(currPage,prevPage,PageNames.ChatPage)){
-                                ColorFilter.tint(Color.White)
-                            }
-                            else{
-                                ColorFilter.tint(Color.Black)
-                            }
+                            Image(
+                                painter = painterResource(R.drawable.icon_chat),
+                                contentDescription = "Chat Page Icon",
+                                contentScale = ContentScale.FillBounds,
+                                modifier = Modifier.size(Dp(50.0F))
+                                    .clip(CircleShape)
+                                    .clickable {
+                                        currPage=PageNames.ChatPage
+                                    },
+                                colorFilter =
+                                if (IconTintCondition(currPage,PageNames.ChatPage)){
+                                    ColorFilter.tint(Color.White)
+                                }
+                                else{
+                                    ColorFilter.tint(Color.Black)
+                                }
 
-                        )
+                            )
 
-                        Image(
-                            painter = painterResource(R.drawable.icon_target),
-                            contentDescription = "Goals Page Icon",
-                            contentScale = ContentScale.FillBounds,
-                            modifier = Modifier.size(Dp(50.0F))
-                                .clip(CircleShape)
-                                .clickable {
-                                    currPage=PageNames.GoalsPage
-                                },
-                            colorFilter =
-                            if (IconTintCondition(currPage,prevPage,PageNames.GoalsPage)){
-                                ColorFilter.tint(Color.White)
-                            }
-                            else{
-                                ColorFilter.tint(Color.Black)
-                            }
-                        )
+                            Image(
+                                painter = painterResource(R.drawable.icon_target),
+                                contentDescription = "Goals Page Icon",
+                                contentScale = ContentScale.FillBounds,
+                                modifier = Modifier.size(Dp(50.0F))
+                                    .clip(CircleShape)
+                                    .clickable {
+                                        currPage=PageNames.GoalsPage
+                                    },
+                                colorFilter =
+                                if (IconTintCondition(currPage,PageNames.GoalsPage)){
+                                    ColorFilter.tint(Color.White)
+                                }
+                                else{
+                                    ColorFilter.tint(Color.Black)
+                                }
+                            )
 
-                        Image(
-                            painter = painterResource(R.drawable.icon_community),
-                            contentDescription = "Collab Page Icon",
-                            contentScale = ContentScale.FillBounds,
-                            modifier = Modifier.size(Dp(50.0F))
-                                .clip(CircleShape)
-                                .clickable {
-                                    currPage=PageNames.CollabPage
-                                },
-                            colorFilter =
-                            if (IconTintCondition(currPage,prevPage,PageNames.CollabPage)){
-                                ColorFilter.tint(Color.White)
-                            }
-                            else{
-                                ColorFilter.tint(Color.Black)
-                            }
-                        )
+                            Image(
+                                painter = painterResource(R.drawable.icon_community),
+                                contentDescription = "Collab Page Icon",
+                                contentScale = ContentScale.FillBounds,
+                                modifier = Modifier.size(Dp(50.0F))
+                                    .clip(CircleShape)
+                                    .clickable {
+                                        currPage=PageNames.CollabPage
+                                    },
+                                colorFilter =
+                                if (IconTintCondition(currPage,PageNames.CollabPage)){
+                                    ColorFilter.tint(Color.White)
+                                }
+                                else{
+                                    ColorFilter.tint(Color.Black)
+                                }
+                            )
+                        }
+
                     }
 
                 }
-
             }
         },
-        floatingActionButton = {
 
+        //Add Button for Transactions
+        floatingActionButton = {
             if (showActionButton){
-                FloatingActionButton(
-                    onClick = {
-                        if (!createTransaction) {
+                    Image(
+                        painter = painterResource(R.drawable.icon_add),
+                        "Add Transaction Icon",
+                        modifier=Modifier.size(60.dp)
+                        .clickable {
                             prevPage=currPage
                             currPage=PageNames.TransactionPage
                         }
-                    }) {
-
-                    Icon(Icons.Default.AddCircle,"Add Icon")
-                }
+                    )
             }
         }
     ){
@@ -330,8 +332,9 @@ fun pageLayout(){
     }
 }
 
-fun IconTintCondition(currPage:String, prevPage:String, desiredPage:String): Boolean {
-    if (currPage == desiredPage || prevPage == desiredPage){
+//Logic here needs work (How do we handle a back button?)
+fun IconTintCondition(currPage:String, desiredPage:String): Boolean {
+    if (currPage == desiredPage){
         return true
     }
     else{

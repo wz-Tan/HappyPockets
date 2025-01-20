@@ -67,12 +67,12 @@ fun CreateIncomePage(autoPadding:PaddingValues){
                 }
 
                 //Card Section
-                createCard()
-                createCard()
-                createCard()
-                createCard()
-                createCard()
-                createCard()
+                CreateOverviewCard()
+                CreateOverviewCard()
+                CreateOverviewCard()
+                CreateOverviewCard()
+                CreateOverviewCard()
+                CreateOverviewCard()
             }
 
         }
